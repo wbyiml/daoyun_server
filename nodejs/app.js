@@ -1,4 +1,4 @@
-//每收到一个http请求，koa就会调用通过app.use()注册的async函数
+//每收到一个http请求，koa就会调用app.use()注册的async函数
 const Koa = require('koa');
 //解析原始request请求，然后，把解析后的参数，绑定到ctx.request.body中
 const bodyParser = require('koa-bodyparser');
@@ -8,16 +8,23 @@ const controller = require('./controller');
 
 const app = new Koa();
 
-// log request URL:
+// log request URL以及页面执行时间:
 app.use(async (ctx, next) => {
     console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
+    var
+        start = new Date().getTime(),
+        execTime;
     await next();
+    execTime = new Date().getTime() - start;
+    ctx.response.set('X-Response-Time', `${execTime}ms`);
 });
 
 //koa-bodyparser必须在router之前被注册到app对象上
 app.use(bodyParser());
-
+// 使用middleware  自动扫描controller，注册url
 app.use(controller());
+
+
 
 app.listen(3000);
 console.log('app started at port 3000...');

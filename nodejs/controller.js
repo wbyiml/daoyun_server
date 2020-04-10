@@ -7,10 +7,12 @@ function addMapping(router, mapping) {
     for (var url in mapping) {
         if (url.startsWith('GET ')) {
             var path = url.substring(4);
+            // add url-route:
             router.get(path, mapping[url]);
             console.log(`register URL mapping: GET ${path}`);
         } else if (url.startsWith('POST ')) {
             var path = url.substring(5);
+            // add url-route:
             router.post(path, mapping[url]);
             console.log(`register URL mapping: POST ${path}`);
         } else {
@@ -30,9 +32,11 @@ function addControllers(router,controllers_dir) {
 
     for (var f of js_files) {
         console.log(`process controller: ${f}...`);
-        let mapping = require(__dirname + '/controllers/' + f);
+        // 导入自己定义的模块
+        let mapping = require(path.join(controllersPath, f));
         addMapping(router, mapping);
     }
+    console.log(`controller.js ***************`);
 }
 
 module.exports = function (dir) {

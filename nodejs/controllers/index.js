@@ -5,6 +5,7 @@ var fn_index = async (ctx, next) => {
             <p>Password: <input name="password" type="password"></p>
             <p><input type="submit" value="Submit"></p>
         </form>`;
+    // ctx.render('home.html', { name: 'Michael' }); // 页面跳转
 };
 
 var fn_signin = async (ctx, next) => {
@@ -12,7 +13,7 @@ var fn_signin = async (ctx, next) => {
         name = ctx.request.body.name || '',
         password = ctx.request.body.password || '';
     console.log(`signin with name: ${name}, password: ${password}`);
-    if (name === 'koa' && password === '12345') {
+    if (name === 'koa' && password === '123456') {
         ctx.response.body = `<h1>Welcome, ${name}!</h1>`;
     } else {
         ctx.response.body = `<h1>Login failed!</h1>
