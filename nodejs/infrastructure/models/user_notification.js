@@ -10,19 +10,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     notification_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     user_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     is_read: {
       type: DataTypes.INTEGER(1),
-      allowNull: false
+      allowNull: true
     },
     read_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

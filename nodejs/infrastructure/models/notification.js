@@ -10,19 +10,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     class_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     content: {
       type: DataTypes.STRING(3000),
-      allowNull: false
+      allowNull: true
     },
     create_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     creator: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

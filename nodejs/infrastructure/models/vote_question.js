@@ -10,19 +10,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     vote_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     sort: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     content: {
       type: DataTypes.STRING(1000),
-      allowNull: false
+      allowNull: true
     },
     type: {
       type: DataTypes.STRING(10),
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

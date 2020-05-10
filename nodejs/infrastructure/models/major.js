@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: true
     },
     faculty_id: {
       type: DataTypes.INTEGER(11),

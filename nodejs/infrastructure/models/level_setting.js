@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     level: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     name: {
       type: DataTypes.STRING(50),
@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     experience: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

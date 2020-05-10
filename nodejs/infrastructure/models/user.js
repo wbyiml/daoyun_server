@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     },
     sex: {
       type: DataTypes.STRING(10),
@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     phone: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     },
     email: {
       type: DataTypes.STRING(50),
@@ -30,7 +30,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     identity: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
+    },
+    student_number: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     },
     shcool_id: {
       type: DataTypes.INTEGER(11),
@@ -44,6 +48,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
+    school_name: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    faculty_name: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    major_name: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
     user_name: {
       type: DataTypes.STRING(50),
       allowNull: true
@@ -54,7 +70,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     experience: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     extend_json: {
       type: DataTypes.STRING(2000),

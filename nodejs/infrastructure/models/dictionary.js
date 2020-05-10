@@ -10,7 +10,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
+    },
+    englishName: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    description: {
+      type: DataTypes.STRING(500),
+      allowNull: true
     }
   }, {
     freezeTableName: true,

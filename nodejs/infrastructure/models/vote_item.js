@@ -10,15 +10,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     question_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     sort: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     content: {
       type: DataTypes.STRING(1000),
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

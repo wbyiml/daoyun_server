@@ -10,15 +10,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     class_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     title: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
     },
     content: {
       type: DataTypes.STRING(3000),
-      allowNull: false
+      allowNull: true
     },
     file: {
       type: DataTypes.STRING(200),
@@ -30,11 +30,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     create_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     creator: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     },
     experience_id: {
       type: DataTypes.INTEGER(11),

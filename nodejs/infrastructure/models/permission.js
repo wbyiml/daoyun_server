@@ -14,11 +14,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     sort: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     name: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
     },
     url: {
       type: DataTypes.STRING(1000),

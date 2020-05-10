@@ -9,8 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     name: {
-      type: DataTypes.CHAR(10),
-      allowNull: false
+      type: DataTypes.STRING(20),
+      allowNull: true
     },
     create_time: {
       type: DataTypes.DATE,

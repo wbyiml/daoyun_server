@@ -14,11 +14,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: true
     },
     rate: {
       type: "DOUBLE",
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

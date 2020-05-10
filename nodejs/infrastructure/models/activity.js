@@ -10,11 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     type: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
     },
     sort: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

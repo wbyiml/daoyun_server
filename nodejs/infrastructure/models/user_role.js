@@ -10,11 +10,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     user_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     role_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
+    },
+    role_name: {
+      type: DataTypes.STRING(20),
+      allowNull: true
     }
   }, {
     freezeTableName: true,

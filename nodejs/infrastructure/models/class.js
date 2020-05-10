@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
     },
     course: {
       type: DataTypes.STRING(100),
@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     user_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     shcool_id: {
       type: DataTypes.INTEGER(11),

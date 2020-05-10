@@ -10,23 +10,23 @@ module.exports = function(sequelize, DataTypes) {
     },
     dictionary_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     keyword: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     },
     value: {
       type: DataTypes.STRING(200),
-      allowNull: false
+      allowNull: true
     },
     is_default: {
       type: DataTypes.INTEGER(1),
-      allowNull: false
+      allowNull: true
     },
     sort: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

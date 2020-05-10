@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     title: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
     },
     experience_id: {
       type: DataTypes.INTEGER(11),
@@ -22,15 +22,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     is_show_now: {
       type: DataTypes.INTEGER(1),
-      allowNull: false
+      allowNull: true
     },
     create_time: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     creator: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     },
     class_id: {
       type: DataTypes.INTEGER(11),

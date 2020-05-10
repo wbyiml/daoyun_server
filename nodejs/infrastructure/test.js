@@ -36,7 +36,7 @@ User.findAndCountAll({  //count  findAll  findOne
   where: {
     name: 'joy'
   },
-  //order: [],  //排序
+  //order: [],  //排序 降序['name', 'DESC']  升序['name']
   limit: 10,  //分页查找条数
   offset: 0,   //分页查找第几条开始
   raw:true,  // 查询结果sequelize模型转成数组

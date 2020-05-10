@@ -10,11 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: true
     },
     experience: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     }
   }, {
     freezeTableName: true,

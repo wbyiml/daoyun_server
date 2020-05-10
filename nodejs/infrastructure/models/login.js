@@ -10,21 +10,21 @@ module.exports = function(sequelize, DataTypes) {
     },
     user_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     },
     phone: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: true
     },
     phone_password: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: true
     },
     email: {
       type: DataTypes.STRING(50),
       allowNull: true
     },
-    emain_password: {
+    email_password: {
       type: DataTypes.STRING(50),
       allowNull: true
     },
