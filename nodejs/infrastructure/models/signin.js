@@ -12,12 +12,24 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
-    experience_id: {
+    experience: {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
-    experience: {
-      type: DataTypes.INTEGER(11),
+    disctance: {
+      type: "DOUBLE",
+      allowNull: true
+    },
+    deadline: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    longitude: {
+      type: "DOUBLE",
+      allowNull: true
+    },
+    latitude: {
+      type: "DOUBLE",
       allowNull: true
     },
     create_time: {
@@ -27,7 +39,7 @@ module.exports = function(sequelize, DataTypes) {
     creator: {
       type: DataTypes.STRING(20),
       allowNull: true
-    }
+    },
   }, {
     freezeTableName: true,
     timestamps: false,

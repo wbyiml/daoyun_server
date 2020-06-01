@@ -1,5 +1,7 @@
 const loginService = require('../application/loginService');
 const userService = require('../application/userService');
+const systemParameterService = require('../application/systemParameterService');
+const roleService = require('../application/roleService');
 
 var login = async (ctx, next) => {
     let way = ctx.request.body.way;
@@ -61,6 +63,10 @@ var sinup = async (ctx, next) => {
     let create_time = ctx.request.body.create_time;
     user_id = '';
 
+    // 初始化默认参数
+    // 初始化默认角色，以后用户改变身份时，若角色被管理员改动过，则不改变角色，若没被管理员改动过，则改变角色
+
+
     await loginService.getLoginByPhone(phone)
     .then(function(data){
         console.log(data);
@@ -82,6 +88,24 @@ var sinup = async (ctx, next) => {
         .then(function(data){
             console.log(data);
             user_id = data.user_id;
+            return systemParameterService.getAllSystemParameter();
+        })
+        .then(function(data){
+            console.log(data);
+            let userSystemParameter = data.rows;
+            for(let i=0;i<userSystemParameter.length;i++){
+                delete userSystemParameter[i].id;
+                delete userSystemParameter[i].extend_json;
+                userSystemParameter[i].user_id = user_id;
+            }
+            return systemParameterService.insertOrUpdateUserSystemParameter(userSystemParameter);
+        })
+        .then(function(data){
+            return roleService.getRoleByName('teacher');
+        })
+        .then(function(data){
+            console.log(data);
+            return userService.insertUserRole(user_id, data[0].id, data[0].name);
         })
         .catch(function(err){
             console.log('catch:'+err);
@@ -99,9 +123,12 @@ var sinup = async (ctx, next) => {
 
 // 绑定邮箱 更改邮箱
 var updateEmail = async (ctx, next) => {
-    let user_id = 9;
-    let email = '111111@qq.com';
-    let email_password = '111111';
+    let user_id = ctx.request.body.user_id;
+    let email = ctx.request.body.email;
+    let email_password = ctx.request.body.email_password;
+    // let user_id = 9;
+    // let email = '111111@qq.com';
+    // let email_password = '111111';
     state = '';
 
     await loginService.getLoginByEmail(email)
@@ -136,9 +163,12 @@ var updateEmail = async (ctx, next) => {
 };
 //更改邮箱密码  
 var updateEmailPassword = async (ctx, next) => {
-    let user_id = 1;
-    let email = '111111@qq.com';
-    let email_password = '222222';
+    let user_id = ctx.request.body.user_id;
+    let email = ctx.request.body.email;
+    let email_password = ctx.request.body.email_password;
+    // let user_id = 1;
+    // let email = '111111@qq.com';
+    // let email_password = '222222';
     state = '';
 
     await loginService.updateLoginEmail(user_id,email,email_password)
@@ -158,11 +188,14 @@ var updateEmailPassword = async (ctx, next) => {
     };
 };
 
-// 更改手机  更改手机密码
+// 更改手机+更改手机密码
 var updatePhone = async (ctx, next) => {
-    let user_id = 1;
-    let phone = '13111111111';
-    let phone_password = 'admin';
+    let user_id = ctx.request.body.user_id;
+    let phone = ctx.request.body.phone;
+    let phone_password = ctx.request.body.phone_password;
+    // let user_id = 1;
+    // let phone = '13111111111';
+    // let phone_password = 'admin';
     state = '';
 
     await loginService.getLoginByPhone(phone)
@@ -197,9 +230,12 @@ var updatePhone = async (ctx, next) => {
 };
 //更改手机密码  
 var updatePhonePassword = async (ctx, next) => {
-    let user_id = 9;
-    let phone = '12345678912';
-    let phone_password = '111111';
+    let user_id = ctx.request.body.user_id;
+    let phone = ctx.request.body.phone;
+    let phone_password = ctx.request.body.phone_password;
+    // let user_id = 9;
+    // let phone = '12345678912';
+    // let phone_password = '111111';
     state = '';
 
     await loginService.updateLoginPhone(user_id,phone,phone_password)

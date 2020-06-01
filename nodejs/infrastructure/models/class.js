@@ -8,6 +8,10 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
+    class_number: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
     class_image: {
       type: DataTypes.STRING(200),
       allowNull: true
@@ -28,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
-    shcool_id: {
+    school_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },

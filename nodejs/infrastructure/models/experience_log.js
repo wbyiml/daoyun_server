@@ -16,8 +16,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
-    experience_id: {
-      type: DataTypes.INTEGER(11),
+    system_parameter_name: {
+      type: DataTypes.STRING(100),
       allowNull: true
     },
     experience: {

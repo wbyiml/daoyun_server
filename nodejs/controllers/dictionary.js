@@ -144,7 +144,7 @@ var deleteDictionary = async (ctx, next) => {
 
 module.exports = {
     'GET /api/getAllDictionaries': getAllDictionaries,
-    'POST /api/createDictionary': createDictionary,
     'POST /api/getDictionaryByName': getDictionaryByName,
+    'POST /api/createDictionary': createDictionary,
     'POST /api/deleteDictionary': deleteDictionary,
 };

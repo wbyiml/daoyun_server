@@ -42,6 +42,22 @@ function getAllUserRoles() {
         });
     });
 };
+function getUserRolesByUserId(user_id) {
+    return new Promise(function(resolve,reject){
+        let User_role = model.user_role;
+        User_role.findAndCountAll({  //count  findAll  findOne
+            where: {
+                user_id: user_id
+            },
+            order: ['user_id'],  //排序
+            raw:true,  // 查询结果sequelize模型转成数组
+        }).then(function(result) {
+            resolve(result);
+        }).catch(function(error) {
+            console.log(error)
+        });
+    });
+};
 
 
 function insertUser(phone) {
@@ -50,6 +66,21 @@ function insertUser(phone) {
         User.create({
             phone: phone,
             experience: 0
+        }).then(function(result) {
+            resolve(result);
+        }).catch(function(error) {
+            console.log(error)
+        });
+    
+    });
+};
+function insertUserRole(user_id,role_id,role_name) {
+    return new Promise(function(resolve,reject){
+        let User_role = model.user_role;
+        User_role.create({
+            user_id: user_id,
+            role_id: role_id,
+            role_name: role_name
         }).then(function(result) {
             resolve(result);
         }).catch(function(error) {
@@ -91,7 +122,24 @@ function updateUser(user) {
     
     });
 };
-
+function updateUserRole(user_id,role_id,role_name) {
+    return new Promise(function(resolve,reject){
+        let User = model.user;
+        User.update({
+            role_id: role_id,
+            role_name: role_name
+        },{
+            where:{
+                user_id: user_id,
+            }
+        }).then(function(result) {
+            resolve(result);
+        }).catch(function(error) {
+            console.log(error)
+        });
+    
+    });
+};
 function updateAllUserRole(pairs) {
     return new Promise(function(resolve,reject){
         let User_role = model.user_role;
@@ -118,7 +166,10 @@ module.exports = {
     'getAllUsers': getAllUsers,
     'getUserById': getUserById,
     'getAllUserRoles': getAllUserRoles,
+    'getUserRolesByUserId': getUserRolesByUserId,
     'insertUser': insertUser,
+    'insertUserRole': insertUserRole,
     'updateUser': updateUser,
+    'updateUserRole': updateUserRole,
     'updateAllUserRole': updateAllUserRole,
 };
