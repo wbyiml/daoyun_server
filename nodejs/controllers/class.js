@@ -1,5 +1,6 @@
 const classService = require('../application/classService');
 const userService = require('../application/userService');
+// const QRious = require('qrious');
 
 // 教师创建的班课
 var getClassByUserId = async (ctx, next) => {
@@ -40,24 +41,23 @@ function getRandomCode(length) {
  }
  var createClass = async (ctx, next) => {
     let classData = ctx.request.body.classData;
-    // let user_id = 1;
+
     // let classData = {
-    //     // class_number
-    //     'class_qrcode':'dataurl', //二维码DataURL保存到本地  命名class_number
+    //     // 'id': 5,
+    //     // 'class_number': 'abcd0',
+    //     // 'class_qrcode':'dataurl', //二维码DataURL保存到本地  命名class_number
     //     'class_image':'dataurl', // 图片DataURL保存到本地 命名class_number
     //     'name':'class1',
     //     'course':'course1',
     //     'semester':'1',
-    //     'user_id':user_id,
+    //     'user_id':1,
     //     'school_id':1,
     //     'faculty_id':1,
     //     'major_id':1,
     //     'is_school_plan':true, 
-    //     // extend_json
     // }
 
-    
-    let class_id = '';
+
     let state = false;
     // 若生成的班课号一直有，则增加长度
     for(let length = 7;length<50;length++){
@@ -77,6 +77,12 @@ function getRandomCode(length) {
                             console.log('写入成功',error)
                         }
                     });
+
+                    // let class_qrcode = new QRious({
+                    //     // value:'https://github.com/neocotic/qrious'
+                    //     value: classData.class_number
+                    // });
+                    // classData.class_qrcode = class_qrcode.toDataURL();
                     fs.writeFile('static/images/class_qrcode/'+classData.class_number+'.txt',classData.class_qrcode,function(error){
                         if(error){
                             console.log('写入失败',error)
@@ -84,11 +90,9 @@ function getRandomCode(length) {
                             console.log('写入成功',error)
                         }
                     });
-                    classData.class_image = classData.class_number;
-                    classData.class_qrcode = classData.class_qrcode;
                     classService.insertClass(classData)
                     .then(function(data){
-                        class_id = data.id;
+                        classData.id = data.id;
                     })
                     state = true;
                 }
@@ -104,8 +108,9 @@ function getRandomCode(length) {
     ctx.response.type = 'application/json';
     // 设置Response Body:
     ctx.response.body = {
-        'class_id': class_id,
-        'class_number': classData.class_number
+        'class_id': classData.id,
+        'class_number': classData.class_number,
+        // 'classData': classData,
     };
 };
   

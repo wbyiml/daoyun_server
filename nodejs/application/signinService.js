@@ -8,7 +8,7 @@ function getSigninByClassId(class_id) {
             where: {
                 class_id: class_id
             },
-            order: [],  //排序
+            order: [['create_time', 'DESC']],  //排序
             raw:true,  // 查询结果sequelize模型转成数组
         }).then(function(result) {
             resolve(result);
@@ -41,9 +41,9 @@ function getExperienceLogByUserIdClassId(user_id, class_id) {
             where: {
                 user_id: user_id,
                 class_id: class_id,
-                name: '签到经验'
+                system_parameter_name: '签到经验'
             },
-            order: [],  //排序
+            order: [['time', 'DESC']],  //排序
             raw:true,  // 查询结果sequelize模型转成数组
         }).then(function(result) {
             resolve(result);
@@ -59,7 +59,7 @@ function getOneExperienceLogByUserIdClassId(user_id, class_id) {
             where: {
                 user_id: user_id,
                 class_id: class_id,
-                name: '签到经验'
+                system_parameter_name: '签到经验'
             },
             order: [['time', 'DESC']],  //排序
             raw:true,  // 查询结果sequelize模型转成数组
@@ -97,7 +97,7 @@ function insertExperienceLog(class_id,user_id,experience,time) {
         Experience_log.create({
             class_id: class_id,
             user_id: user_id,
-            name: '签到经验',
+            system_parameter_name: '签到经验',
             experience: experience,
             time: time,
         }).then(function(result) {

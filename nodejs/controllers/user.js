@@ -60,6 +60,26 @@ var getAllUsers = async (ctx, next) => {
       'users': users
   };
 }
+var getUserById = async (ctx, next) => {
+    let user_id = ctx.request.body.user_id;
+
+    user = ''
+    await userService.getUserById(user_id)
+    .then(function(data){
+        console.log(data);
+        user = data
+    })
+    .catch(function(err){
+        console.log('catch:'+err);
+    })
+  
+    // 设置Content-Type:
+    ctx.response.type = 'application/json';
+    // 设置Response Body:
+    ctx.response.body = {
+        'user': user
+    };
+  }
 
 
 
@@ -151,8 +171,51 @@ var updateAllUserRole = async (ctx, next) => {
 //修改用户信息
 var updateUser = async (ctx, next) => {
     let user = ctx.request.body.user;
-  
-    state = '';
+    // let user = {
+    //     name: 'aaa',
+    //     sex: 'man',
+    //     birthday: '2020-01-01 06:00:00',
+    //     phone: '13123456789',
+    //     email: '111222@qq.com',
+    //     identity: 'teacher',
+    //     student_number: '190327001',
+    //     shcool_id: 1,
+    //     faculty_id: 1,
+    //     major_id: 1,
+    //     shcool_name: '福州大学',
+    //     faculty_name: '',
+    //     major_name: '',
+    //     user_name: 'aaaaa',
+    //     head_image: '',  //dataUrl
+    //     experience: 10, //总经验值
+    // }
+
+    //用户改变身份时，若角色被管理员改动过，则不改变角色，若没被管理员改动过，则改变角色
+    let userRoles  = []
+    let identity = ''
+    // 数据库用户的角色
+    await userService.getUserRolesByUserId(user.id)
+    .then(function(data){
+        userRoles = data.rows
+        // 数据库用户的identity
+        return userService.getUserById(user.id);
+    })
+    .then(function(data){
+        identity = data[0].identity
+        // 新的角色
+        return roleService.getRoleByName(user.identity);
+        
+    })
+    .then(function(data){
+        if(userRoles.length == 1 && identity == userRoles[0].role_name){
+            userService.updateUserRole(user.id,data[0].id,data[0].name)
+        }
+    })
+    .catch(function(err){
+        console.log('catch:'+err);
+    })
+
+    let state = '';
     await userService.updateUser(user)
     .then(function(data){
         console.log(data);
@@ -173,6 +236,7 @@ var updateUser = async (ctx, next) => {
 module.exports = {
     'POST /api/initializeUser': initializeUser,
     'GET /api/getAllUsers': getAllUsers,
+    'POST /api/getUserById': getUserById,
     'POST /api/getUserPermissions': getUserPermissions,
     'GET /api/getAllUserRoles': getAllUserRoles,
     'POST /api/updateAllUserRole': updateAllUserRole,

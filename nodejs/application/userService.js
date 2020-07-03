@@ -65,6 +65,7 @@ function insertUser(phone) {
         let User = model.user;
         User.create({
             phone: phone,
+            birthday: '2000-01-01 00:00:00',
             experience: 0
         }).then(function(result) {
             resolve(result);
@@ -106,6 +107,9 @@ function updateUser(user) {
             shcool_id: user.shcool_id,
             faculty_id: user.faculty_id,
             major_id: user.major_id,
+            shcool_name: user.shcool_name,
+            faculty_name: user.faculty_name,
+            major_name: user.major_name,
             user_name: user.user_name,
             head_image: user.head_image,
             experience: user.experience,
