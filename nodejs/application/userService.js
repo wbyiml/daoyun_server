@@ -104,10 +104,10 @@ function updateUser(user) {
             email: user.email,
             identity: user.identity,
             student_number: user.student_number,
-            shcool_id: user.shcool_id,
+            school_id: user.school_id,
             faculty_id: user.faculty_id,
             major_id: user.major_id,
-            shcool_name: user.shcool_name,
+            school_name: user.school_name,
             faculty_name: user.faculty_name,
             major_name: user.major_name,
             user_name: user.user_name,
@@ -117,6 +117,23 @@ function updateUser(user) {
         },{
             where:{
                 id: user.id
+            }
+        }).then(function(result) {
+            resolve(result);
+        }).catch(function(error) {
+            console.log(error)
+        });
+    
+    });
+};
+function updateUserExperience(user_id,experience) {
+    return new Promise(function(resolve,reject){
+        let User = model.user;
+        User.update({
+            experience: experience
+        },{
+            where:{
+                id: user_id
             }
         }).then(function(result) {
             resolve(result);
@@ -174,6 +191,7 @@ module.exports = {
     'insertUser': insertUser,
     'insertUserRole': insertUserRole,
     'updateUser': updateUser,
+    'updateUserExperience': updateUserExperience,
     'updateUserRole': updateUserRole,
     'updateAllUserRole': updateAllUserRole,
 };

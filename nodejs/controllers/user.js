@@ -1,4 +1,4 @@
-const userService = require('../application/userService');
+﻿const userService = require('../application/userService');
 const roleService = require('../application/roleService');
 
 var initializeUser = async (ctx, next) => {
@@ -179,10 +179,10 @@ var updateUser = async (ctx, next) => {
     //     email: '111222@qq.com',
     //     identity: 'teacher',
     //     student_number: '190327001',
-    //     shcool_id: 1,
+    //     school_id: 1,
     //     faculty_id: 1,
     //     major_id: 1,
-    //     shcool_name: '福州大学',
+    //     school_name: '福州大学',
     //     faculty_name: '',
     //     major_name: '',
     //     user_name: 'aaaaa',

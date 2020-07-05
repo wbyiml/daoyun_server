@@ -110,7 +110,6 @@ function insertClass(classData) {
         let Class = model.class;
         Class.create({
             class_number: classData.class_number,
-            class_image: classData.class_image,
             name: classData.name,
             course: classData.course,
             semester: classData.semester,
@@ -147,7 +146,6 @@ function updateClass(classData) {
     return new Promise(function(resolve,reject){
         let Class = model.class;
         Class.update({
-            class_image: classData.class_image,
             name: classData.name,
             course: classData.course,
             semester: classData.semester,

@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: true
     },
-    shcool_id: {
+    school_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },

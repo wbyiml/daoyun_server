@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const Sequelize = require('sequelize');
 const config = require('./config');
 
@@ -9,7 +9,18 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
         max: 5,
         min: 0,
         idle: 30000
-    }
+    },
+    dialectOptions: {
+      useUTC: false, //for reading from database
+      dateStrings: true,
+      typeCast: function (field, next) { // for reading from database
+        if (field.type === 'DATETIME') {
+          return field.string()
+        }
+          return next()
+        },
+    },
+    //timezone: '-02:00'
 });
 
 var path = require('path');

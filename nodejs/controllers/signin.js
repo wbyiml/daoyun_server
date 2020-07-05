@@ -1,4 +1,5 @@
-const signinService = require('../application/signinService');
+﻿const signinService = require('../application/signinService');
+const userService = require('../application/userService');
 
 // 班课里教师发起的的签到
 var getSigninByClassId = async (ctx, next) => {
@@ -105,42 +106,44 @@ var joinSignin = async (ctx, next) => {
     let user_id = ctx.request.body.user_id;
     let class_id = ctx.request.body.class_id;
     let signin_time = ctx.request.body.signin_time;
-    // let user_id = 10;
-    // let class_id = 17;
-    // let signin_time = '2020-06-20 02:12:12'
+    let longitude = ctx.request.body.longitude;
+    let latitude = ctx.request.body.latitude;
 
     // 查看最新签到是否过期，若还没过期，查看学生最新签到是否已签到
-    let create_time = '';
-    let deadline = '';
-    let experience = 0;
+    let signin = ''; // create_time deadline experience longitude latitude distance
     let state = '';
     await signinService.getSigninByClassId(class_id)
     .then(function(data){
         console.log(data);
-        if(data.length>0){
-            create_time = data[0].create_time;
-            deadline = data[0].deadline;
-            experience = data[0].experience;
-        }else{
-            state = -1;
-        }
-        
+        signin = data;
     })
     .catch(function(err){
         console.log('catch:'+err);
     })
 
-    if(deadline =='' || new Date(deadline).getTime() < new Date(signin_time).getTime()){
-        // 尚无发起签到 或 签到过期
+
+    signin_time_format = signin_time.replace('T',' ')
+    signin_time_format = signin_time.replace('Z','')
+
+    if(signin.length == 0 ){
+        // 尚无发起签到 
         state = -1;
+    }else if(new Date(signin[0].deadline).getTime() < new Date(signin_time_format).getTime()){
+        // 签到过期
+        state = -2;
+    }else if( signin[0].distance && (signin[0].distance*signin[0].distance) < 
+                ((signin[0].latitude-latitude)*(signin[0].latitude-latitude)+
+                (signin[0].longitude-longitude)*(signin[0].longitude-longitude))){
+        // 超出签到范围  若不限距离，创建签到时distance为null
+        state = -3;
     }else{
         await signinService.getExperienceLogByUserIdClassId(user_id,class_id)
         .then(function(data){
-            if(new Date(create_time).getTime() < new Date(data[0].time).getTime()  ){
+            if(data.length!=0 && new Date(signin[0].create_time).getTime() < new Date(data[0].time).getTime()  ){
                 //已签到
-                state = -2;
+                state = -4;
             }else{
-                signinService.insertExperienceLog(class_id,user_id,experience,signin_time);
+                signinService.insertExperienceLog(class_id,user_id,signin[0].experience,signin_time);
                 state = 1;
             }
         })
@@ -149,7 +152,8 @@ var joinSignin = async (ctx, next) => {
         })
 
     }
-   
+
+
    // 设置Content-Type:
    ctx.response.type = 'application/json';
    // 设置Response Body:

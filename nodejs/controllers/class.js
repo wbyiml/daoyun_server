@@ -156,19 +156,34 @@ var getClassById = async (ctx, next) => {
     };
 };
 
+
 //修改班课
 var updateClass = async (ctx, next) => {
     let classData = ctx.request.body.classData;
 
     state = '';
+    var fs = require('fs');
+    fs.writeFile('static/images/class_image/'+classData.class_number+'.txt',classData.class_image,function(error){
+        if(error){
+            console.log('写入失败',error)
+        }else{
+            console.log('写入成功',error)
+        }
+    });
+    fs.writeFile('static/images/class_qrcode/'+classData.class_number+'.txt',classData.class_qrcode,function(error){
+        if(error){
+            console.log('写入失败',error)
+        }else{
+            console.log('写入成功',error)
+        }
+    });
+
     await classService.updateClass(classData)
     .then(function(data){
         console.log(data);
         state = data;
     })
-    .catch(function(err){
-        console.log('catch:'+err);
-    })
+
 
     // 设置Content-Type:
     ctx.response.type = 'application/json';
@@ -267,36 +282,54 @@ var getUserClassByUserId = async (ctx, next) => {
     };
 };
 
-// 加入班课
-var joinClass = async (ctx, next) => {
-    let user_id = ctx.request.body.user_id;
+// 用班课号搜索班课
+var getClassByClassNumber = async (ctx, next) => {
     let class_number = ctx.request.body.class_number;
+    let user_id = ctx.request.body.user_id;
 
-   
     let classData = '';
     let state = '';
     await classService.getClassByClassNumber(class_number)
     .then(function(data){
-        console.log(data);
-        classData = data;
+        console.log('success:'+data);
+        if(data.length != 0){
+            classData = data[0];
+        }
     })
     .catch(function(err){
         console.log('catch:'+err);
     })
 
-    if(classData.length == 0){
+    if(classData == ''){
         //班课号不存在
         state = -1;
     }else{
-        await classService.getUserClassByUserIdAndClassId(user_id,classData[0].id)
+        var fs = require('fs');
+        fs.readFile('static/images/class_image/'+classData.class_number+'.txt',function(error,data){
+            if(error){
+                console.log('读取失败',error)
+            }else{
+                console.log('读取成功',error)
+                classData.class_image = data;
+            }
+        });
+        fs.readFile('static/images/class_qrcode/'+classData.class_number+'.txt',function(error,data){
+            if(error){
+                console.log('读取失败',error)
+            }else{
+                console.log('读取成功',error)
+                classData.class_qrcode = data;
+            }
+        });
+
+        await classService.getUserClassByUserIdAndClassId(user_id,classData.id)
         .then(function(data){
             console.log(data);
             if(data.length != 0){
                 //已加入班课
                 state = -2;
             }else{
-                state = classData[0].id,
-                classService.insertUserClass(user_id,classData[0].id);
+                state = classData.id;
             }
         })
         .catch(function(err){
@@ -304,6 +337,60 @@ var joinClass = async (ctx, next) => {
         })
 
     }
+
+    // 设置Content-Type:
+    ctx.response.type = 'application/json';
+    // 设置Response Body:
+    ctx.response.body = {
+        'classData': classData,
+        'state': state,
+    };
+};
+// 加入班课
+var joinClass = async (ctx, next) => {
+    let user_id = ctx.request.body.user_id;
+    let class_id = ctx.request.body.class_id;
+    // let class_number = ctx.request.body.class_number;
+
+    // let classData = '';
+    // let state = '';
+    // await classService.getClassByClassNumber(class_number)
+    // .then(function(data){
+    //     console.log(data);
+    //     classData = data;
+    // })
+    // .catch(function(err){
+    //     console.log('catch:'+err);
+    // })
+
+    // if(classData.length == 0){
+    //     //班课号不存在
+    //     state = -1;
+    // }else{
+    //     await classService.getUserClassByUserIdAndClassId(user_id,classData[0].id)
+    //     .then(function(data){
+    //         console.log(data);
+    //         if(data.length != 0){
+    //             //已加入班课
+    //             state = -2;
+    //         }else{
+    //             state = classData[0].id,
+    //             classService.insertUserClass(user_id,classData[0].id);
+    //         }
+    //     })
+    //     .catch(function(err){
+    //         console.log('catch:'+err);
+    //     })
+
+    // }
+
+
+    let state = '';
+    await classService.insertUserClass(user_id,class_id)
+    .then(function(data){
+        console.log(data);
+        state = data
+    })
    
    // 设置Content-Type:
    ctx.response.type = 'application/json';
@@ -348,6 +435,7 @@ module.exports = {
     'POST /api/deleteClass': deleteClass,
     'POST /api/getUserClassByClassId': getUserClassByClassId,
     'POST /api/getUserClassByUserId': getUserClassByUserId,
+    'POST /api/getClassByClassNumber': getClassByClassNumber,
     'POST /api/joinClass': joinClass,
     'POST /api/exitClass': exitClass,
 };
