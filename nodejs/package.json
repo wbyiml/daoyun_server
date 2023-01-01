@@ -29,6 +29,6 @@
         "windows-build-tools": "^5.2.2"
     },
     "devDependencies": {
-        "webpack-cli": "^3.3.12"
+        "webpack-cli": "^5.0.1"
     }
 }
